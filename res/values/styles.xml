@@ -18,6 +18,7 @@
 		<item name="android:actionBarTabTextStyle">@style/MyActionBarTabText</item>
 		<item name="android:windowContentOverlay">@null</item>
 		<item name="android:typeface">sans</item>
+		<item name="android:windowBackground">@android:color/white</item>
     </style>
 
 	<style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
@@ -25,6 +26,7 @@
 		<item name="android:titleTextStyle">@style/MyActionBarTitleTextStyle</item>
 		<item name="android:showDividers">beginning</item>
 		<item name="android:divider">@color/twitter_gray</item>
+		<item name="android:backgroundStacked">@android:color/white</item>
 	</style>
 
 	<style name="MyActionBarTabText" parent="@android:style/Widget.Holo.Light.ActionBar.TabText">
