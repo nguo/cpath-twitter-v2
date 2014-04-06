@@ -9,6 +9,7 @@
 	<ImageView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:onClick="onUserImageClick"
 			android:id="@+id/ivProfile"
 			android:layout_marginTop="10dp"
 			android:layout_marginLeft="7dp"/>

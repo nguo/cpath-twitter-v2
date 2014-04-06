@@ -198,6 +198,13 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
 		startActivityForResult(i, COMPOSE_REQUEST_CODE);
 	}
 
+	/** Callback for when a user's image on the timeline is clicked */
+	public void onUserImageClick(View v) {
+		Intent i = new Intent(this, ProfileActivity.class);
+		i.putExtra(USER_ID_EXTRA, (Long) v.getTag());
+		startActivity(i);
+	}
+
 	/**
 	 * callback when unfavorited button is hit (means user wants to favorite)
 	 * @param v		unfavorite button view

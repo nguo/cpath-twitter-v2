@@ -13,6 +13,8 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+
 /**
  * ProfileActivity - profile screen
  */
@@ -43,7 +45,7 @@ public class ProfileActivity extends FragmentActivity {
 			fragUserTimeline.handleUserId(profileUser.getUserId());
 			setUserInfo();
 		} else {
-			loadProfileInfo(Long.parseLong(i.getStringExtra(TimelineActivity.USER_ID_EXTRA)));
+			loadProfileInfo(i.getLongExtra(TimelineActivity.USER_ID_EXTRA, -1));
 		}
 	}
 
@@ -82,8 +84,9 @@ public class ProfileActivity extends FragmentActivity {
 		ImageLoader.getInstance().displayImage(profileUser.getProfileImageUrl(), ivProfPic);
 		tvProfRealName.setText(profileUser.getName());
 		tvProfScreenName.setText("@"+profileUser.getScreenName());
-		tvNumTweets.setText(Integer.toString(profileUser.getNumTweets()));
-		tvNumFollowing.setText(Integer.toString(profileUser.getNumFollowing()));
-		tvNumFollowers.setText(Integer.toString(profileUser.getNumFollowers()));
+		DecimalFormat formatter = new DecimalFormat("###,###,###,###");
+		tvNumTweets.setText(formatter.format(profileUser.getNumTweets()));
+		tvNumFollowing.setText(formatter.format(profileUser.getNumFollowing()));
+		tvNumFollowers.setText(formatter.format(profileUser.getNumFollowers()));
 	}
 }
