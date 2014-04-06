@@ -1,8 +1,12 @@
 package codepath.apps.twitter.activities;
 
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.ActionBar.TabListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -12,6 +16,7 @@ import android.widget.Toast;
 import codepath.apps.twitter.R;
 import codepath.apps.twitter.TwitterApp;
 import codepath.apps.twitter.fragments.HomeTimelineFragment;
+import codepath.apps.twitter.fragments.MentionsFragment;
 import codepath.apps.twitter.helpers.Util;
 import codepath.apps.twitter.models.ImageButtonData;
 import codepath.apps.twitter.models.Tweet;
@@ -22,7 +27,11 @@ import org.json.JSONObject;
 /**
  * TimelineActivity - home timeline screen
  */
-public class TimelineActivity extends FragmentActivity{
+public class TimelineActivity extends FragmentActivity implements TabListener {
+	/** home timeline tab tag name */
+	public static final String HOME_TIMELINE_TAB_TAG_NAME = "HomeTimelineFragment";
+	/** mentions tab tag name */
+	public static final String MENTIONS_TAB_TAG_NAME = "MentionsFragment";
 	/** request code for compose activity */
 	public static final int COMPOSE_REQUEST_CODE = 7;
 	/** name of intent bundle that contains posted tweet's contents */
@@ -40,6 +49,7 @@ public class TimelineActivity extends FragmentActivity{
 	private MenuItem miCompose; // hide before user info is retrieved because the compose activity needs it
 	private LinearLayout llCompose; // hide before user info is retrieved because the compose activity needs it
 	private HomeTimelineFragment fragHomeTimeline;
+	private MentionsFragment fragMentions;
 
 	/** account uer's info */
 	private User accountUser;
@@ -48,8 +58,12 @@ public class TimelineActivity extends FragmentActivity{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_timeline);
-		fragHomeTimeline = (HomeTimelineFragment) getSupportFragmentManager().findFragmentById(R.id.fragHomeTimeline);
+		if (savedInstanceState == null) {
+			fragHomeTimeline = new HomeTimelineFragment();
+			fragMentions = new MentionsFragment();
+		}
 		setupViews();
+		setupNavigationTabs();
 	}
 
 	@Override
@@ -60,6 +74,24 @@ public class TimelineActivity extends FragmentActivity{
 		miCompose.setEnabled(false);
 		getUserInfo();
 		return true;
+	}
+
+	/** setups navigation tabs */
+	private void setupNavigationTabs() {
+		ActionBar actionBar = getActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		actionBar.setDisplayShowTitleEnabled(true);
+		Tab tabHome = actionBar.newTab()
+				.setText("Home")
+				.setTag(HOME_TIMELINE_TAB_TAG_NAME)
+				.setTabListener(this);
+		Tab tabMentions = actionBar.newTab()
+				.setText("Mentions")
+				.setTag(MENTIONS_TAB_TAG_NAME)
+				.setTabListener(this);
+		actionBar.addTab(tabHome);
+		actionBar.addTab(tabMentions);
+		actionBar.selectTab(tabHome);
 	}
 
 	/** setups the views */
@@ -92,6 +124,29 @@ public class TimelineActivity extends FragmentActivity{
 				Util.failureToastHelper(getBaseContext(), "Failed to retrieve user info: ", jsonObject);
 			}
 		});
+	}
+
+	@Override
+	public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) {
+		// do nothing
+	}
+
+	@Override
+	public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
+		FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
+		if (tab.getTag().equals(HOME_TIMELINE_TAB_TAG_NAME)) {
+			// set fragment to home timeline
+			fts.replace(R.id.flayoutFrag, fragHomeTimeline);
+		} else {
+			// set fragment to mentions timeline
+			fts.replace(R.id.flayoutFrag, fragMentions);
+		}
+		fts.commit();
+	}
+
+	@Override
+	public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {
+		// do nothing
 	}
 
 	@Override
