@@ -1,6 +1,5 @@
 package codepath.apps.twitter.fragments;
 
-import android.os.Bundle;
 import codepath.apps.twitter.TwitterApp;
 import codepath.apps.twitter.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -11,10 +10,6 @@ import org.json.JSONObject;
  * HomeTimelineFragment - fragment specific to the home timeline
  */
 public class HomeTimelineFragment extends TweetsListFragment {
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-	}
 
 	/**
 	 * processes a composed tweet that was just posted, including adding it to the timeline

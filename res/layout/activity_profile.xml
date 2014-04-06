@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+		android:orientation="vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<ImageView
+			android:layout_alignParentTop="true"
+			android:layout_centerHorizontal="true"
+			android:layout_marginTop="10dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/ivProfPic"/>
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerHorizontal="true"
+			android:textStyle="bold"
+			android:id="@+id/tvProfRealName"
+			android:layout_below="@id/ivProfPic"/>
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerHorizontal="true"
+			android:textSize="12dp"
+			android:id="@+id/tvProfScreenName"
+			android:textColor="@color/twitter_gray"
+			android:layout_below="@id/tvProfRealName"/>
+
+	<TableLayout
+			android:stretchColumns="0,1,2"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/tvProfScreenName"
+			android:id="@+id/tlNumbers">
+		<TableRow
+				android:background="@color/divider_gray"
+				android:layout_width="match_parent"
+				android:layout_height="fill_parent">
+			<TextView
+					android:background="@android:color/white"
+					android:layout_height="wrap_content"
+					android:layout_width="fill_parent"
+					android:gravity="center"
+					android:id="@+id/tvNumTweets"
+					android:text=""
+					android:layout_marginRight="0.7dp"/>
+
+			<TextView
+					android:background="@android:color/white"
+					android:layout_height="wrap_content"
+					android:layout_width="fill_parent"
+					android:gravity="center"
+					android:text=""
+					android:id="@+id/tvNumFollowing"/>
+
+			<TextView
+					android:background="@android:color/white"
+					android:layout_height="wrap_content"
+					android:layout_width="fill_parent"
+					android:gravity="center"
+					android:text=""
+					android:id="@+id/tvNumFollowers"
+					android:layout_marginLeft="0.7dp"/>
+		</TableRow>
+
+		<TableRow
+				android:background="@color/divider_gray"
+				android:layout_width="match_parent"
+				android:layout_height="fill_parent">
+			<TextView
+					android:background="@android:color/white"
+					android:layout_height="wrap_content"
+					android:layout_width="fill_parent"
+					android:gravity="center"
+					android:textColor="@color/twitter_gray"
+					android:layout_marginRight="0.7dp"
+					android:text="@string/num_tweets"/>
+
+			<TextView
+					android:background="@android:color/white"
+					android:layout_height="wrap_content"
+					android:layout_width="fill_parent"
+					android:gravity="center"
+					android:textColor="@color/twitter_gray"
+					android:text="@string/num_following"/>
+
+			<TextView
+					android:background="@android:color/white"
+					android:layout_height="wrap_content"
+					android:layout_width="fill_parent"
+					android:gravity="center"
+					android:textColor="@color/twitter_gray"
+					android:text="@string/num_followers"
+					android:layout_marginLeft="0.7dp"/>
+		</TableRow>
+	</TableLayout>
+
+	<fragment
+			android:layout_width="match_parent"
+			android:layout_height="fill_parent"
+			android:name="codepath.apps.twitter.fragments.UserTimelineFragment"
+			android:id="@+id/fragUserTimeline"
+			android:layout_centerHorizontal="true"
+			android:layout_below="@+id/tlNumbers"/>
+
+</RelativeLayout>

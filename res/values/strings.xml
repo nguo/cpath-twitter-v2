@@ -8,12 +8,17 @@
 	<string name="compose_desc">Compose Tweet</string>
 	<string name="compose_hint">What\'s happening?</string>
 	<string name="compose_name">Compose</string>
+	<string name="profile">Profile</string>
 	<string name="tweet">Tweet</string>
 	<string name="max_characters">140</string>
+	<string name="num_tweets">TWEETS</string>
+	<string name="num_following">FOLLOWING</string>
+	<string name="num_followers">FOLLOWERS</string>
 
 	<color name="twitter_blue">#55ACEE</color>
 	<color name="twitter_gray">#9FADB6</color>
 	<color name="compose_title_gray">#CFD8DE</color>
 	<color name="compose_title_blue">#80B4D3</color>
+	<color name="divider_gray">#E5E5E5</color>
 
 </resources>

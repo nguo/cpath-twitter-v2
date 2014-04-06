@@ -24,7 +24,7 @@ import org.json.JSONObject;
  * ComposeActivity - the compose tweet screen
  */
 public class ComposeActivity extends Activity {
-	// views
+	/** views */
 	MenuItem miTweet;
 	MenuItem miCharactersLeft;
 	ImageView ivUserProfile;

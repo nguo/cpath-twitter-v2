@@ -90,6 +90,39 @@ public class TwitterClient extends OAuthBaseClient {
 	}
 
 	/**
+	 * Gets some user's timeline
+	 * @param maxId		max_id param indicating the ID of the oldest tweet we have right now
+	 * @param sinceId	since_id param indicating the ID of the newest tweet we have right now
+	 * @param userId	user id for whom we are fetching the timeline
+	 * @param handler	the response handler
+	 */
+	public void getUserTimeline(long maxId, long sinceId, long userId, AsyncHttpResponseHandler handler) {
+		RequestParams params = new RequestParams();
+		params.put("count", "25"); // grab 50 tweets at a time
+		if (maxId >= 0) {
+			params.put("max_id", Long.toString(maxId));
+		}
+		if (sinceId >= 0) {
+			params.put("since_id", Long.toString(sinceId));
+		}
+		params.put("user_id", Long.toString(userId));
+		String url = getApiUrl("statuses/user_timeline.json");
+		client.get(url, params, handler);
+	}
+
+	/**
+	 * Gets some user's account info
+	 * @param userId	user's user id
+	 * @param handler	the response handler
+	 */
+	public void getAnyUserAccount(long userId, AsyncHttpResponseHandler handler) {
+		RequestParams params = new RequestParams();
+		params.put("user_id", Long.toString(userId));
+		String url = getApiUrl("users/show.json");
+		client.get(url, params, handler);
+	}
+
+	/**
 	 * Posts a request for favoriting a tweet
 	 * @param id			tweet id of tweet to favorite
 	 * @param handler		the response handler

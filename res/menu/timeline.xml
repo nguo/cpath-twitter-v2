@@ -2,6 +2,13 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 	<item
+			android:id="@+id/miProfile"
+			android:showAsAction="never"
+			android:onClick="onProfileView"
+			android:icon="@drawable/ic_profile"
+			android:title="@string/profile"/>
+
+	<item
 			android:id="@+id/miCompose"
 			android:showAsAction="never"
 			android:onClick="onCompose"

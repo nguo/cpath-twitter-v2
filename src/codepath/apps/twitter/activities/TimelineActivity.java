@@ -42,11 +42,16 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
 	public static final String USER_SCREEN_NAME_EXTRA = "user_screen_name";
 	/** name of the intent bundle that contains user's profile image url */
 	public static final String USER_PROFILE_IMAGE_URL_EXTRA = "user_profile_image_url";
+	/** name of the intent bundle that contains a user object */
+	public static final String USER_EXTRA = "user";
+	/** name of the intent bundle that contains a user id */
+	public static final String USER_ID_EXTRA = "user_id";
 	/** name of the intent bundle that contains some string to prepopulate into the text field */
 	public static final String PREPOPULATED_STRING_EXTRA = "prepopulated_string_extra";
 
-	// views
+	/** views */
 	private MenuItem miCompose; // hide before user info is retrieved because the compose activity needs it
+	private MenuItem miProfile; // hide before user info is retrieved because the profile activity needs it
 	private LinearLayout llCompose; // hide before user info is retrieved because the compose activity needs it
 	private HomeTimelineFragment fragHomeTimeline;
 	private MentionsFragment fragMentions;
@@ -72,6 +77,8 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
 		menuInflater.inflate(R.menu.timeline, menu);
 		miCompose = menu.findItem(R.id.miCompose);
 		miCompose.setEnabled(false);
+		miProfile = menu.findItem(R.id.miProfile);
+		miProfile.setEnabled(false);
 		getUserInfo();
 		return true;
 	}
@@ -117,6 +124,8 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
 				llCompose.setVisibility(View.VISIBLE);
 				miCompose.setEnabled(true);
 				miCompose.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+				miProfile.setEnabled(true);
+				miProfile.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 			}
 
 			@Override
@@ -155,6 +164,13 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
 			Tweet t = (Tweet) data.getSerializableExtra(POSTED_TWEET_EXTRA);
 			fragHomeTimeline.processComposedTweet(t);
 		}
+	}
+
+	/** Callback for when the profile button is pressed */
+	public void onProfileView(MenuItem mi) {
+		Intent i = new Intent(this, ProfileActivity.class);
+		i.putExtra(USER_EXTRA, accountUser);
+		startActivity(i);
 	}
 
 	/** Callback for when the compose button is pressed */
