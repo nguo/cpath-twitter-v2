@@ -8,13 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import codepath.apps.twitter.R;
-import codepath.apps.twitter.TwitterApp;
 import codepath.apps.twitter.adapters.TweetsAdapter;
 import codepath.apps.twitter.helpers.EndlessScrollListener;
 import codepath.apps.twitter.helpers.Util;
-import codepath.apps.twitter.models.ImageButtonData;
 import codepath.apps.twitter.models.Tweet;
-import com.loopj.android.http.JsonHttpResponseHandler;
 import eu.erikw.PullToRefreshListView;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,6 +27,7 @@ abstract public class TweetsListFragment extends Fragment {
 	// views
 	protected ProgressBar pbCenter;
 	protected PullToRefreshListView lvTweets;
+	protected View footerView;
 
 	/** list of tweets */
 	protected LinkedList<Tweet> tweetsList = new LinkedList<Tweet>();
@@ -63,8 +61,7 @@ abstract public class TweetsListFragment extends Fragment {
 	protected void setupViews() {
 		pbCenter = (ProgressBar) getActivity().findViewById(R.id.pbCenter);
 		lvTweets = (PullToRefreshListView) getActivity().findViewById(R.id.lvTweets);
-		View footerView = getActivity().getLayoutInflater().inflate(R.layout.lv_footer_item, null);
-		lvTweets.addFooterView(footerView);
+		footerView = getActivity().getLayoutInflater().inflate(R.layout.lv_footer_item, null);
 		adapter = new TweetsAdapter(getActivity(), tweetsList);
 		lvTweets.setAdapter(adapter);
 		toggleCenterProgressBar(true);
@@ -99,40 +96,20 @@ abstract public class TweetsListFragment extends Fragment {
 	}
 
 	/**
-	 * On the initial tweets retrieval, try to get the tweets from db
+	 * On the initial tweets retrieval, try to get the tweets from db if applicable
 	 * @return		true if we succeeded in getting tweets from db
 	 */
-	protected boolean getInitialTweetsFromDb() {
-		boolean success = false;
-		if (tweetsList.size() == 0) {
-			tweetsList.addAll(Tweet.recentItems());
-			if (tweetsList.size() > 0) {
-				currentNewestTweetId = tweetsList.getLast().getTweetId();
-				currentOldestTweetId = tweetsList.getFirst().getTweetId();
-				getNewTweets();
-				success = true;
-			}
-		}
-		return success;
-	}
+	abstract protected boolean handleInitialTweetsFromDb();
 
 	/**
 	 * tries to save the given tweet into the db
 	 * @param tweet		tweet to save
 	 */
-	protected void trySaveTweet(Tweet tweet) {
-		// only save tweet if it's not already in the db
-		if (Tweet.byTweetId(tweet.getTweetId()) == null) {
-			if (!tweet.setUserUsingDb()) { // only save the user if it's not already in the db
-				tweet.getUser().save();
-			}
-			tweet.save();
-		}
-	}
+	abstract protected void trySaveTweet(Tweet tweet);
 
 	/** makes request to get old tweets */
 	protected void getOldTweets() {
-		if (getInitialTweetsFromDb()) {
+		if (handleInitialTweetsFromDb()) {
 			return; // no need to do anything more because we got the tweets from the db
 		} else if (!Util.isNetworkAvailable(getActivity())) {
 			// don't try to make requests and let the user know that there's no internet connection
@@ -142,6 +119,7 @@ abstract public class TweetsListFragment extends Fragment {
 		} else {
 			// if no pending fetches, then make the request
 			isFetchingTweets = true;
+			lvTweets.addFooterView(footerView);
 			requestOldTweets();
 		}
 	}
@@ -175,8 +153,9 @@ abstract public class TweetsListFragment extends Fragment {
 				currentNewestTweetId = id;
 			}
 		}
-		// show listview and refresh adapter
+		// hide progress bars and refresh adapter
 		toggleCenterProgressBar(false);
+		lvTweets.removeFooterView(footerView);
 		adapter.addAll(tweets);
 		// reset flag because we're no longer waiting for a response
 		isFetchingTweets = false;

@@ -50,6 +50,25 @@ public class TwitterClient extends OAuthBaseClient {
 	}
 
 	/**
+	 * Gets the tweets that mention the home user
+	 * @param maxId		max_id param indicating the ID of the oldest tweet we have right now
+	 * @param sinceId	since_id param indicating the ID of the newest tweet we have right now
+	 * @param handler	the response handler
+	 */
+	public void getMentions(long maxId, long sinceId, AsyncHttpResponseHandler handler) {
+		RequestParams params = new RequestParams();
+		params.put("count", "25"); // grab 50 tweets at a time
+		if (maxId >= 0) {
+			params.put("max_id", Long.toString(maxId));
+		}
+		if (sinceId >= 0) {
+			params.put("since_id", Long.toString(sinceId));
+		}
+		String url = getApiUrl("statuses/mentions_timeline.json");
+		client.get(url, params, handler);
+	}
+
+	/**
 	 * Posts a tweet given its body
 	 * @param tweetBody		the tweet's content
 	 * @param handler		the response handler
