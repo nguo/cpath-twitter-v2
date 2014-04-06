@@ -7,7 +7,7 @@ import android.widget.AbsListView;
  */
 public abstract class EndlessScrollListener implements AbsListView.OnScrollListener {
 	/** min number of items to have below current scroll position before loading more */
-	private int visibleThreshold = 1;
+	private int visibleThreshold = 10;
 	/** the current offset index */
 	private int currentPage = 0;
 	/** total number of items in the dataset after last load */
