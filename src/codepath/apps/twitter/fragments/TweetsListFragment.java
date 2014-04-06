@@ -24,7 +24,7 @@ import java.util.LinkedList;
  * TweetsListFragment - generic abstract fragment designed to show a list of tweets
  */
 abstract public class TweetsListFragment extends Fragment {
-	// views
+	/** views */
 	protected ProgressBar pbCenter;
 	protected PullToRefreshListView lvTweets;
 	protected View footerView;
@@ -114,9 +114,9 @@ abstract public class TweetsListFragment extends Fragment {
 		} else if (!Util.isNetworkAvailable(getActivity())) {
 			// don't try to make requests and let the user know that there's no internet connection
 			Toast.makeText(getActivity(), "Please connect to a network.", Toast.LENGTH_LONG).show();
-		} else if (isFetchingTweets) {
+		} else if (isFetchingTweets && currentOldestTweetId >= 0) {
 			areOlderTweetsWanted = true; // can't make request because we're still waiting for previous request to come back
-		} else {
+		} else if (!isFetchingTweets) {
 			// if no pending fetches, then make the request
 			isFetchingTweets = true;
 			lvTweets.addFooterView(footerView);
@@ -165,7 +165,6 @@ abstract public class TweetsListFragment extends Fragment {
 			getOldTweets();
 			areOlderTweetsWanted = false;
 		}
-		adapter.addAll(Tweet.fromJson(jsonTweets));
 	}
 
 	/**
