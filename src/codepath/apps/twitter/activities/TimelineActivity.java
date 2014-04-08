@@ -129,7 +129,8 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
 			@Override
 			public void onSuccess(JSONObject jsonObject) {
 				accountUser = User.fromJson(jsonObject);
-				// enable menu elements
+				// enable elements that require user info
+				llCompose.setVisibility(View.VISIBLE);
 				ImageLoader.getInstance().displayImage(accountUser.getProfileImageUrl(), ivMiProfile);
 				miProfile.setEnabled(true);
 				miProfile.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
