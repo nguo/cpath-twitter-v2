@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import codepath.apps.twitter.R;
 import codepath.apps.twitter.TwitterApp;
@@ -21,6 +23,7 @@ import java.text.DecimalFormat;
  */
 public class ProfileActivity extends FragmentActivity {
 	/** views */
+	private LinearLayout llInfo;
 	private ImageView ivProfBanner;
 	private ImageView ivProfPic;
 	private TextView tvProfDesc;
@@ -52,6 +55,7 @@ public class ProfileActivity extends FragmentActivity {
 
 	/** setups the views */
 	private void setupViews() {
+		llInfo = (LinearLayout) findViewById(R.id.llInfo);
 		ivProfPic = (ImageView) findViewById(R.id.ivProfPic);
 		ivProfBanner = (ImageView) findViewById(R.id.ivProfBanner);
 		tvProfDesc = (TextView) findViewById(R.id.tvProfDesc);
@@ -101,5 +105,13 @@ public class ProfileActivity extends FragmentActivity {
 		tvNumTweets.setText(formatter.format(profileUser.getNumTweets()));
 		tvNumFollowing.setText(formatter.format(profileUser.getNumFollowing()));
 		tvNumFollowers.setText(formatter.format(profileUser.getNumFollowers()));
+
+		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)llInfo.getLayoutParams();
+		if (profileUser.getDescription().length() > 0) {
+			params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+		} else {
+			params.addRule(RelativeLayout.CENTER_IN_PARENT);
+		}
+		llInfo.setLayoutParams(params);
 	}
 }

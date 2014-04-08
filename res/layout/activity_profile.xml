@@ -21,7 +21,6 @@
 			android:src="@drawable/gray_rectangle"/>
 
 	<LinearLayout
-		android:layout_alignParentLeft="true"
 		android:layout_alignParentTop="true"
 		android:paddingTop="30dp"
 		android:paddingLeft="10dp"
