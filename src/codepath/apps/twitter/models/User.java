@@ -17,10 +17,14 @@ public class User extends Model implements Serializable {
 	private String name;
 	@Column(name = "screenName")
 	private String screenName;
+	@Column(name = "description")
+	private String description;
 	@Column(name = "userId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
 	private long userId;
 	@Column(name = "profileImageUrl")
 	private String profileImageUrl;
+	@Column(name = "profileBannerUrl")
+	private String profileBannerUrl;
 	@Column(name = "numTweets")
 	public int numTweets;
 	@Column(name = "numFollowing")
@@ -48,6 +52,14 @@ public class User extends Model implements Serializable {
 		return profileImageUrl;
 	}
 
+	public String getProfileBannerUrl() {
+		return profileBannerUrl;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
 	public String getScreenName() {
 		return screenName;
 	}
@@ -67,6 +79,12 @@ public class User extends Model implements Serializable {
 			u.screenName = json.getString("screen_name");
 			u.userId = json.getLong("id");
 			u.profileImageUrl = json.getString("profile_image_url");
+			if (json.has("profile_banner_url")) {
+				u.profileBannerUrl = json.getString("profile_banner_url");
+			} else {
+				u.profileBannerUrl = "";
+			}
+			u.description = json.getString("description");
 			u.numTweets = json.getInt("statuses_count");
 			u.numFollowing = json.getInt("friends_count");
 			u.numFollowers = json.getInt("followers_count");

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout
-		android:orientation="vertical"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		xmlns:android="http://schemas.android.com/apk/res/android">
@@ -9,32 +8,71 @@
 	<ImageView
 			android:layout_alignParentTop="true"
 			android:layout_centerHorizontal="true"
-			android:layout_marginTop="10dp"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:id="@+id/ivProfPic"/>
-	<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:layout_height="150dp"
+			android:scaleType="centerCrop"
+			android:id="@+id/ivProfBanner"/>
+
+	<ImageView
+			android:layout_alignParentTop="true"
 			android:layout_centerHorizontal="true"
-			android:textStyle="bold"
-			android:id="@+id/tvProfRealName"
-			android:layout_below="@id/ivProfPic"/>
+			android:layout_width="match_parent"
+			android:layout_height="150dp"
+			android:src="@drawable/gray_rectangle"/>
+
+	<LinearLayout
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentTop="true"
+		android:paddingTop="30dp"
+		android:paddingLeft="10dp"
+		android:paddingRight="10dp"
+		android:orientation="vertical"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:id="@+id/llInfo">
+
+		<ImageView
+				android:layout_alignParentTop="true"
+				android:layout_alignParentLeft="true"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:background="@android:color/white"
+				android:padding="2dp"
+				android:id="@+id/ivProfPic"/>
+
+		<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textStyle="bold"
+				android:textColor="@android:color/white"
+				android:id="@+id/tvProfRealName"/>
+		<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textSize="12dp"
+				android:id="@+id/tvProfScreenName"
+				android:textColor="@android:color/white"/>
+
+	</LinearLayout>
+
 	<TextView
-			android:layout_width="wrap_content"
+			android:layout_alignParentTop="true"
+			android:layout_marginTop="30dp"
+			android:paddingLeft="10dp"
+			android:paddingRight="10dp"
+			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:layout_centerHorizontal="true"
-			android:textSize="12dp"
-			android:id="@+id/tvProfScreenName"
-			android:textColor="@color/twitter_gray"
-			android:layout_below="@id/tvProfRealName"/>
+			android:gravity="center"
+			android:textColor="@android:color/white"
+			android:id="@+id/tvProfDesc"
+			android:layout_toRightOf="@id/llInfo"/>
 
 	<TableLayout
 			android:stretchColumns="0,1,2"
 			android:layout_marginTop="5dp"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_below="@id/tvProfScreenName"
+			android:layout_below="@id/ivProfBanner"
 			android:id="@+id/tlNumbers">
 		<TableRow
 				android:background="@color/divider_gray"

@@ -21,7 +21,9 @@ import java.text.DecimalFormat;
  */
 public class ProfileActivity extends FragmentActivity {
 	/** views */
+	private ImageView ivProfBanner;
 	private ImageView ivProfPic;
+	private TextView tvProfDesc;
 	private TextView tvProfRealName;
 	private TextView tvProfScreenName;
 	private TextView tvNumTweets;
@@ -51,6 +53,8 @@ public class ProfileActivity extends FragmentActivity {
 	/** setups the views */
 	private void setupViews() {
 		ivProfPic = (ImageView) findViewById(R.id.ivProfPic);
+		ivProfBanner = (ImageView) findViewById(R.id.ivProfBanner);
+		tvProfDesc = (TextView) findViewById(R.id.tvProfDesc);
 		tvProfRealName = (TextView) findViewById(R.id.tvProfRealName);
 		tvProfScreenName = (TextView) findViewById(R.id.tvProfScreenName);
 		tvNumTweets = (TextView) findViewById(R.id.tvNumTweets);
@@ -89,6 +93,8 @@ public class ProfileActivity extends FragmentActivity {
 	/** sets the user info in the views */
 	private void setUserInfo() {
 		ImageLoader.getInstance().displayImage(profileUser.getProfileImageUrl(), ivProfPic);
+		ImageLoader.getInstance().displayImage(profileUser.getProfileBannerUrl(), ivProfBanner);
+		tvProfDesc.setText(profileUser.getDescription());
 		tvProfRealName.setText(profileUser.getName());
 		tvProfScreenName.setText("@"+profileUser.getScreenName());
 		DecimalFormat formatter = new DecimalFormat("###,###,###,###");
