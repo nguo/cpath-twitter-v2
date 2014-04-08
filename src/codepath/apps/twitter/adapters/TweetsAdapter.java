@@ -46,7 +46,7 @@ public class TweetsAdapter extends ArrayAdapter<Tweet> {
 		// load tweeter's profile image
 		ImageView ivProfile = (ImageView) v.findViewById(R.id.ivProfile);
 		ImageLoader.getInstance().displayImage(tweet.getUser().getProfileImageUrl(), ivProfile);
-		ivProfile.setTag(tweet.getUser().getUserId());
+		ivProfile.setTag(tweet.getUser());
 		// set tweet statuses
 		setupFavButtons(tweet, v);
 		ImageButton ibtnReply = (ImageButton) v.findViewById(R.id.ibtnReply);

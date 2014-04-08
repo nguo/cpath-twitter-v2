@@ -2,27 +2,21 @@ package codepath.apps.twitter.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.*;
 import codepath.apps.twitter.R;
-import codepath.apps.twitter.TwitterApp;
 import codepath.apps.twitter.fragments.UserTimelineFragment;
 import codepath.apps.twitter.models.User;
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 
 /**
  * ProfileActivity - profile screen
  */
-public class ProfileActivity extends FragmentActivity {
+public class ProfileActivity extends BaseTimelineActivity {
 	/** views */
 	private LinearLayout llInfo;
 	private ImageView ivProfBanner;
@@ -45,12 +39,12 @@ public class ProfileActivity extends FragmentActivity {
 		setupViews();
 		// set values
 		Intent i = getIntent();
-		profileUser = (User) i.getSerializableExtra(TimelineActivity.USER_EXTRA);
+		profileUser = (User) i.getSerializableExtra(BaseTimelineActivity.USER_EXTRA);
 		if (profileUser != null) {
 			setUserInfo();
 			createFragment();
 		} else {
-			loadProfileInfo(i.getLongExtra(TimelineActivity.USER_ID_EXTRA, -1));
+			Toast.makeText(this, "Invalid User", Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -65,26 +59,6 @@ public class ProfileActivity extends FragmentActivity {
 		tvNumTweets = (TextView) findViewById(R.id.tvNumTweets);
 		tvNumFollowing = (TextView) findViewById(R.id.tvNumFollowing);
 		tvNumFollowers = (TextView) findViewById(R.id.tvNumFollowers);
-	}
-
-	/**
-	 * loads any user's profile info
-	 * @param userId	id of user to fetch info for
-	 */
-	private void loadProfileInfo(long userId) {
-		TwitterApp.getRestClient().getAnyUserAccount(userId, new JsonHttpResponseHandler() {
-			@Override
-			public void onSuccess(JSONObject jsonUser) {
-				profileUser = User.fromJson(jsonUser);
-				setUserInfo();
-				createFragment();
-			}
-
-			@Override
-			public void onFailure(Throwable throwable, JSONObject jsonObject) {
-
-			}
-		});
 	}
 
 	/** creates the user timeline fragment */
@@ -116,5 +90,15 @@ public class ProfileActivity extends FragmentActivity {
 			llInfo.setGravity(Gravity.CENTER);
 		}
 		llInfo.setLayoutParams(params);
+	}
+
+	@Override
+	protected User getUser() {
+		return profileUser;
+	}
+
+	@Override
+	public void onUserImageClick(View v) {
+		return; // do nothing because we're already on this user's profile
 	}
 }

@@ -3,7 +3,7 @@ package codepath.apps.twitter.fragments;
 import android.os.Bundle;
 import android.view.View;
 import codepath.apps.twitter.TwitterApp;
-import codepath.apps.twitter.activities.TimelineActivity;
+import codepath.apps.twitter.activities.BaseTimelineActivity;
 import codepath.apps.twitter.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
@@ -19,7 +19,7 @@ public class UserTimelineFragment extends TweetsListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		userId = getArguments().getLong(TimelineActivity.USER_ID_EXTRA, -1);
+		userId = getArguments().getLong(BaseTimelineActivity.USER_ID_EXTRA, -1);
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class UserTimelineFragment extends TweetsListFragment {
 	public static UserTimelineFragment newInstance(long userId) {
 		UserTimelineFragment frag = new UserTimelineFragment();
 		Bundle args = new Bundle();
-		args.putLong(TimelineActivity.USER_ID_EXTRA, userId);
+		args.putLong(BaseTimelineActivity.USER_ID_EXTRA, userId);
 		frag.setArguments(args);
 		return frag;
 	}

@@ -2,7 +2,6 @@ package codepath.apps.twitter.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import codepath.apps.twitter.R;
 import codepath.apps.twitter.TwitterClient;

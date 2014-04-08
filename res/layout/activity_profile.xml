@@ -22,7 +22,7 @@
 
 	<LinearLayout
 		android:layout_alignParentTop="true"
-		android:paddingTop="30dp"
+		android:paddingTop="10dp"
 		android:paddingLeft="10dp"
 		android:paddingRight="10dp"
 		android:orientation="vertical"
@@ -56,8 +56,7 @@
 
 	<TextView
 			android:layout_alignParentTop="true"
-			android:layout_marginTop="30dp"
-			android:paddingLeft="10dp"
+			android:layout_marginTop="10dp"
 			android:paddingRight="10dp"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"

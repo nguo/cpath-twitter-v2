@@ -43,10 +43,10 @@ public class ComposeActivity extends Activity {
 		etBody = (EditText) findViewById(R.id.etBody);
 		// set values
 		Intent i = getIntent();
-		ImageLoader.getInstance().displayImage(i.getStringExtra(TimelineActivity.USER_PROFILE_IMAGE_URL_EXTRA), ivUserProfile);
-		tvUserRealName.setText(i.getStringExtra(TimelineActivity.USER_NAME_EXTRA));
-		tvUserScreenName.setText("@"+i.getStringExtra(TimelineActivity.USER_SCREEN_NAME_EXTRA));
-		etBody.setText(i.getStringExtra(TimelineActivity.PREPOPULATED_STRING_EXTRA));
+		ImageLoader.getInstance().displayImage(i.getStringExtra(BaseTimelineActivity.USER_PROFILE_IMAGE_URL_EXTRA), ivUserProfile);
+		tvUserRealName.setText(i.getStringExtra(BaseTimelineActivity.USER_NAME_EXTRA));
+		tvUserScreenName.setText("@"+i.getStringExtra(BaseTimelineActivity.USER_SCREEN_NAME_EXTRA));
+		etBody.setText(i.getStringExtra(BaseTimelineActivity.PREPOPULATED_STRING_EXTRA));
 		// set up listeners
 		etBody.addTextChangedListener(new InputValidator());
 		etBody.setSelection(etBody.getText().length());
@@ -71,7 +71,7 @@ public class ComposeActivity extends Activity {
 			public void onSuccess(JSONObject jsonPostedTweet) {
 				Toast.makeText(getBaseContext(), "Tweeted", Toast.LENGTH_SHORT).show();
 				Intent i = new Intent();
-				i.putExtra(TimelineActivity.POSTED_TWEET_EXTRA, Tweet.fromJson(jsonPostedTweet));
+				i.putExtra(BaseTimelineActivity.POSTED_TWEET_EXTRA, Tweet.fromJson(jsonPostedTweet));
 				setResult(RESULT_OK, i);
 				finish();
 			}
