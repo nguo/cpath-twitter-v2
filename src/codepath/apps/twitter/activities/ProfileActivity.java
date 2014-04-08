@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -109,8 +110,10 @@ public class ProfileActivity extends FragmentActivity {
 		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)llInfo.getLayoutParams();
 		if (profileUser.getDescription().length() > 0) {
 			params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+			llInfo.setGravity(Gravity.LEFT);
 		} else {
 			params.addRule(RelativeLayout.CENTER_IN_PARENT);
+			llInfo.setGravity(Gravity.CENTER);
 		}
 		llInfo.setLayoutParams(params);
 	}
