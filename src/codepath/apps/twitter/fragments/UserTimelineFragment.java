@@ -3,6 +3,7 @@ package codepath.apps.twitter.fragments;
 import android.os.Bundle;
 import android.view.View;
 import codepath.apps.twitter.TwitterApp;
+import codepath.apps.twitter.activities.TimelineActivity;
 import codepath.apps.twitter.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
@@ -15,13 +16,10 @@ public class UserTimelineFragment extends TweetsListFragment {
 	/** user id */
 	private long userId = -1;
 
-	/** if true, then activity as been created */
-	private boolean isActivityCreated = false;
-
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		isActivityCreated = true;
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		userId = getArguments().getLong(TimelineActivity.USER_ID_EXTRA, -1);
 	}
 
 	@Override
@@ -74,30 +72,25 @@ public class UserTimelineFragment extends TweetsListFragment {
 	public void onDetach() {
 		super.onDetach();
 		userId = -1;
-		isActivityCreated = false;
-	}
-
-	@Override
-	protected void setupViews() {
-		super.setupViews();
-		// progress bar will always be invisible in this fragment
-		pbCenter.setVisibility(View.INVISIBLE);
-		lvTweets.setVisibility(View.VISIBLE);
 	}
 
 	@Override
 	protected void toggleCenterProgressBar(boolean showPb) {
-		// do nothing. tweets list will always be visible in this fragment
+		// tweets list will always be visible in this fragment
+		pbCenter.setVisibility(View.INVISIBLE);
+		lvTweets.setVisibility(View.VISIBLE);
 	}
 
 	/**
-	 * handle the user id passed in
-	 * @param userId
+	 * Creates a new instance of this fragment
+	 * @param userId	user id to save for later
+	 * @return			the newly-created instance
 	 */
-	public void handleUserId(long userId) {
-		this.userId = userId;
-		if (isActivityCreated) {
-			requestOldTweets();
-		}
+	public static UserTimelineFragment newInstance(long userId) {
+		UserTimelineFragment frag = new UserTimelineFragment();
+		Bundle args = new Bundle();
+		args.putLong(TimelineActivity.USER_ID_EXTRA, userId);
+		frag.setArguments(args);
+		return frag;
 	}
 }

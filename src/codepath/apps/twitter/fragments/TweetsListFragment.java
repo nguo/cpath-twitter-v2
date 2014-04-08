@@ -47,24 +47,16 @@ abstract public class TweetsListFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_tweets_list, container, false);
-	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		setupViews();
-		setupListeners();
-	}
-
-	/** setups the views */
-	protected void setupViews() {
-		pbCenter = (ProgressBar) getActivity().findViewById(R.id.pbCenter);
-		lvTweets = (PullToRefreshListView) getActivity().findViewById(R.id.lvTweets);
-		footerView = getActivity().getLayoutInflater().inflate(R.layout.lv_footer_item, null);
+		View v = inflater.inflate(R.layout.fragment_tweets_list, container, false);
+		pbCenter = (ProgressBar) v.findViewById(R.id.pbCenter);
+		lvTweets = (PullToRefreshListView) v.findViewById(R.id.lvTweets);
+		footerView = inflater.inflate(R.layout.lv_footer_item, null);
 		adapter = new TweetsAdapter(getActivity(), tweetsList);
 		lvTweets.setAdapter(adapter);
 		toggleCenterProgressBar(true);
+		setupListeners();
+		getOldTweets();
+		return v;
 	}
 
 	/** toggles the visibility of the listview and the progress bar */

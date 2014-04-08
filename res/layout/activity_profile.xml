@@ -99,12 +99,12 @@
 		</TableRow>
 	</TableLayout>
 
-	<fragment
+	<FrameLayout
+			android:id="@+id/flayoutFragProfile"
 			android:layout_width="match_parent"
 			android:layout_height="fill_parent"
-			android:name="codepath.apps.twitter.fragments.UserTimelineFragment"
-			android:id="@+id/fragUserTimeline"
-			android:layout_centerHorizontal="true"
-			android:layout_below="@+id/tlNumbers"/>
+			android:layout_below="@+id/tlNumbers"
+			android:layout_centerHorizontal="true">
+	</FrameLayout>
 
 </RelativeLayout>

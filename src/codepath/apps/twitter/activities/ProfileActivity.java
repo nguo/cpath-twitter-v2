@@ -3,6 +3,7 @@ package codepath.apps.twitter.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.widget.ImageView;
 import android.widget.TextView;
 import codepath.apps.twitter.R;
@@ -26,7 +27,6 @@ public class ProfileActivity extends FragmentActivity {
 	private TextView tvNumTweets;
 	private TextView tvNumFollowing;
 	private TextView tvNumFollowers;
-	private UserTimelineFragment fragUserTimeline;
 
 	/** user of this profile */
 	private User profileUser;
@@ -35,15 +35,14 @@ public class ProfileActivity extends FragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
-		fragUserTimeline = (UserTimelineFragment) getSupportFragmentManager().findFragmentById(R.id.fragUserTimeline);
 		// setup views
 		setupViews();
 		// set values
 		Intent i = getIntent();
 		profileUser = (User) i.getSerializableExtra(TimelineActivity.USER_EXTRA);
 		if (profileUser != null) {
-			fragUserTimeline.handleUserId(profileUser.getUserId());
 			setUserInfo();
+			createFragment();
 		} else {
 			loadProfileInfo(i.getLongExtra(TimelineActivity.USER_ID_EXTRA, -1));
 		}
@@ -68,8 +67,8 @@ public class ProfileActivity extends FragmentActivity {
 			@Override
 			public void onSuccess(JSONObject jsonUser) {
 				profileUser = User.fromJson(jsonUser);
-				fragUserTimeline.handleUserId(profileUser.getUserId());
 				setUserInfo();
+				createFragment();
 			}
 
 			@Override
@@ -77,6 +76,14 @@ public class ProfileActivity extends FragmentActivity {
 
 			}
 		});
+	}
+
+	/** creates the user timeline fragment */
+	private void createFragment() {
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		UserTimelineFragment fragUserTimeline = UserTimelineFragment.newInstance(profileUser.getUserId());
+		ft.replace(R.id.flayoutFragProfile, fragUserTimeline);
+		ft.commit();
 	}
 
 	/** sets the user info in the views */
