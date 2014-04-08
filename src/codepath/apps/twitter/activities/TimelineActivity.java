@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import codepath.apps.twitter.R;
@@ -22,6 +23,7 @@ import codepath.apps.twitter.models.ImageButtonData;
 import codepath.apps.twitter.models.Tweet;
 import codepath.apps.twitter.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import org.json.JSONObject;
 
 /**
@@ -50,8 +52,8 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
 	public static final String PREPOPULATED_STRING_EXTRA = "prepopulated_string_extra";
 
 	/** views */
-	private MenuItem miCompose; // hide before user info is retrieved because the compose activity needs it
 	private MenuItem miProfile; // hide before user info is retrieved because the profile activity needs it
+	private ImageView ivMiProfile;
 	private LinearLayout llCompose; // hide before user info is retrieved because the compose activity needs it
 	private HomeTimelineFragment fragHomeTimeline;
 	private MentionsFragment fragMentions;
@@ -75,10 +77,17 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater menuInflater = getMenuInflater();
 		menuInflater.inflate(R.menu.timeline, menu);
-		miCompose = menu.findItem(R.id.miCompose);
-		miCompose.setEnabled(false);
 		miProfile = menu.findItem(R.id.miProfile);
 		miProfile.setEnabled(false);
+		View v = miProfile.getActionView();
+		ivMiProfile = (ImageView) v.findViewById(R.id.ivMiProfile);
+		ivMiProfile.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// make query
+				onProfileView(v);
+			}
+		});
 		getUserInfo();
 		return true;
 	}
@@ -120,10 +129,8 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
 			@Override
 			public void onSuccess(JSONObject jsonObject) {
 				accountUser = User.fromJson(jsonObject);
-				// enable compose elements
-				llCompose.setVisibility(View.VISIBLE);
-				miCompose.setEnabled(true);
-				miCompose.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+				// enable menu elements
+				ImageLoader.getInstance().displayImage(accountUser.getProfileImageUrl(), ivMiProfile);
 				miProfile.setEnabled(true);
 				miProfile.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 			}
@@ -167,7 +174,7 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
 	}
 
 	/** Callback for when the profile button is pressed */
-	public void onProfileView(MenuItem mi) {
+	public void onProfileView(View v) {
 		Intent i = new Intent(this, ProfileActivity.class);
 		i.putExtra(USER_EXTRA, accountUser);
 		startActivity(i);
